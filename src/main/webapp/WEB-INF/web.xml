@@ -23,7 +23,7 @@
     <!-- Jersey -->
     <servlet>
         <servlet-name>jersey-serlvet</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>br.uff.sti.hermes.api</param-value>
@@ -37,10 +37,10 @@
  
     <servlet-mapping>
         <servlet-name>jersey-serlvet</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-    <!--     Add Support for Spring 
+    <!--     Add Support for Spring -->    
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
@@ -54,5 +54,5 @@
         <listener-class>
             org.springframework.web.context.request.RequestContextListener
         </listener-class>
-    </listener>-->
+    </listener>
 </web-app>
