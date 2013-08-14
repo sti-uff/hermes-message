@@ -12,22 +12,43 @@ import java.sql.Date;
  */
 public class SendTask {
 
-    public enum status {
+    public enum Status {
 
         TODO, DOING, DONE;
     }
+    private Integer id;
     private String to;
     private String replyTo;
     private String subject;
     private String content;
     private Date createdAt = new Date(System.currentTimeMillis());
-    private status status;
+    private Status status;
 
     public SendTask(String to, String replyTo, String subject, String content) {
         this.to = to;
         this.replyTo = replyTo;
         this.subject = subject;
         this.content = content;
+        this.status = Status.TODO;
+    }
+
+    @Override
+    public int hashCode() {
+        return to.hashCode() + subject.hashCode() * 2 + content.hashCode() * 3;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
@@ -38,14 +59,14 @@ public class SendTask {
     /**
      * @return the status
      */
-    public status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(status status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -54,6 +75,10 @@ public class SendTask {
      */
     public Date getCreatedAt() {
         return createdAt;
+    }
+    
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     /**

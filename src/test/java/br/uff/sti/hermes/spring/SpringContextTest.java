@@ -1,4 +1,4 @@
-package br.uff.sti.hermes;
+package br.uff.sti.hermes.spring;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 /**
- * Test to check if Spring Context is running
- * and if @AutoWire is working
+ *
+ * @author dancastellani
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/applicationContext.xml")
@@ -22,12 +22,5 @@ public class SpringContextTest {
     @Test
     public void whenTestsRunSpringsApplicationContextIsInitialized() {
         assertNotNull(applicationContext);
-    }
-
-    /**
-     * @param applicationContext the applicationContext to set
-     */
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
     }
 }
