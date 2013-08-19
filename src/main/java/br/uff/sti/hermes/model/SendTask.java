@@ -12,12 +12,26 @@ import java.sql.Date;
  */
 public class SendTask {
 
+    /**
+     * @return the sendTo
+     */
+    public String getSendTo() {
+        return sendTo;
+    }
+
+    /**
+     * @param sendTo the sendTo to set
+     */
+    public void setSendTo(String sendTo) {
+        this.sendTo = sendTo;
+    }
+
     public enum Status {
 
         TODO, DOING, DONE;
     }
     private Integer id;
-    private String to;
+    private String sendTo;
     private String replyTo;
     private String subject;
     private String content;
@@ -25,7 +39,7 @@ public class SendTask {
     private Status status;
 
     public SendTask(String to, String replyTo, String subject, String content) {
-        this.to = to;
+        this.sendTo = to;
         this.replyTo = replyTo;
         this.subject = subject;
         this.content = content;
@@ -34,7 +48,7 @@ public class SendTask {
 
     @Override
     public int hashCode() {
-        return to.hashCode() + subject.hashCode() * 2 + content.hashCode() * 3;
+        return getSendTo().hashCode() + subject.hashCode() * 2 + content.hashCode() * 3;
     }
 
     /**
@@ -53,7 +67,7 @@ public class SendTask {
 
     @Override
     public String toString() {
-        return "to: " + to + ", replyTo: " + replyTo + ", subject: " + subject + ", content: " + content;
+        return "to: " + getSendTo() + ", replyTo: " + replyTo + ", subject: " + subject + ", content: " + content;
     }
 
     /**
@@ -79,20 +93,6 @@ public class SendTask {
     
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    /**
-     * @return the to
-     */
-    public String getTo() {
-        return to;
-    }
-
-    /**
-     * @param to the to to set
-     */
-    public void setTo(String to) {
-        this.to = to;
     }
 
     /**
