@@ -4,10 +4,10 @@
  */
 package br.uff.sti.hermes.service;
 
+import br.uff.sti.hermes.dao.SendTaskDao;
 import br.uff.sti.hermes.model.SendTask;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,18 +17,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendTaskService {
 
-    Map<Integer, SendTask> tasks = new HashMap<Integer, SendTask>();
+    @Autowired
+    SendTaskDao sendTaskDao;
 
-    public void addTaks(SendTask task) {
-        tasks.put(task.getId(), task);
+    public void saveTask(SendTask task) {
+        sendTaskDao.save(task);
     }
-    
-    public SendTask getTask(int id){
-        return tasks.get(id);
+
+    public SendTask getTaskbyId(int id) {
+        return sendTaskDao.getById(id);
     }
 
     public Collection<SendTask> getAll() {
-        return tasks.values();
+        return sendTaskDao.getAll();
     }
-
 }

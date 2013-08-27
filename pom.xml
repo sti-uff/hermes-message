@@ -9,6 +9,7 @@
 
     <properties>
         <context>hermes</context>
+        <flyway.version>2.2</flyway.version>
         <jetty.version>7.1.6.v20100715</jetty.version>
         <spring.version>3.1.2.RELEASE</spring.version>
         <jersey.version>1.17.1</jersey.version>
@@ -58,7 +59,13 @@
         <dependency>
             <groupId>com.googlecode.flyway</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>2.2</version>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.flyway-test-extensions</groupId>
+            <artifactId>flyway-spring-test</artifactId>
+            <version>${flyway.version}</version>
+            <scope>test</scope>
         </dependency>
         <!-- FIM Flyway -->
         
@@ -139,7 +146,21 @@
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>1.2.3</version>
+            <version>1.8.1</version>
+            <exclusions>
+                <!-- Exclude Groovy because of classpath issue -->
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <!-- Needs to be the same version that REST Assured depends on -->
+            <version>2.1.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -153,12 +174,12 @@
                 <version>6.1.26</version>
                 <configuration>
                     <!--Delete this block to have Jetty run default port (8080)-->
-                    <connectors>
+<!--                    <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>9090</port>
                         </connector>
-                    </connectors>
-                    <contextPath>/${context}</contextPath>
+                    </connectors>-->
+                    <contextPath>/</contextPath>
                     <scanIntervalSeconds>3</scanIntervalSeconds>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
@@ -200,7 +221,6 @@
                 </dependency>
                 </dependencies>-->
             </plugin>
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

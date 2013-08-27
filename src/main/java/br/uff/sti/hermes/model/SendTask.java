@@ -4,13 +4,52 @@
  */
 package br.uff.sti.hermes.model;
 
-import java.sql.Date;
-
 /**
  *
  * @author dancastellani
  */
 public class SendTask {
+
+    public enum Status {
+
+        TODO, DOING, DONE, LOAD_ERROR;
+
+        public static SendTask.Status get(String status) {
+            if (SendTask.Status.TODO.toString().equals(status)) {
+                return SendTask.Status.TODO;
+            } else if (SendTask.Status.DOING.toString().equals(status)) {
+                return SendTask.Status.DOING;
+            } else if (SendTask.Status.DONE.toString().equals(status)) {
+                return SendTask.Status.DONE;
+            }
+            return SendTask.Status.LOAD_ERROR;
+        }
+    }
+    private Integer id;
+    private String sendTo;
+    private String replyTo;
+    private String subject;
+    private String content;
+    private Status status = Status.TODO;
+
+    public SendTask() {
+    }
+
+    public SendTask(Integer id, String sendTo, String replyTo, String subject, String content, Status status) {
+        this.id = id;
+        this.sendTo = sendTo;
+        this.replyTo = replyTo;
+        this.subject = subject;
+        this.content = content;
+        this.status = status;
+    }
+
+    public SendTask(String to, String replyTo, String subject, String content) {
+        this.sendTo = to;
+        this.replyTo = replyTo;
+        this.subject = subject;
+        this.content = content;
+    }
 
     /**
      * @return the sendTo
@@ -24,26 +63,6 @@ public class SendTask {
      */
     public void setSendTo(String sendTo) {
         this.sendTo = sendTo;
-    }
-
-    public enum Status {
-
-        TODO, DOING, DONE;
-    }
-    private Integer id;
-    private String sendTo;
-    private String replyTo;
-    private String subject;
-    private String content;
-    private Date createdAt = new Date(System.currentTimeMillis());
-    private Status status;
-
-    public SendTask(String to, String replyTo, String subject, String content) {
-        this.sendTo = to;
-        this.replyTo = replyTo;
-        this.subject = subject;
-        this.content = content;
-        this.status = Status.TODO;
     }
 
     @Override
@@ -82,17 +101,6 @@ public class SendTask {
      */
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    /**
-     * @return the createdAt
-     */
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     /**
