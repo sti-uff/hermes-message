@@ -37,7 +37,7 @@ public class SendTaskApiUnitTest {
     @Test
     public void getTasksByIdShouldCallServiceMock() {
         SendTask task = new SendTask("to", "replyTo", "subject", "content");
-        when(serviceMock.getTask(1)).thenReturn(task);
+        when(serviceMock.getTaskbyId(1)).thenReturn(task);
 
         assertEquals(task, sendTaskApi.show(1));
     }
