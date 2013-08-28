@@ -6,6 +6,7 @@ package br.uff.sti.hermes.api;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
 import br.uff.sti.hermes.model.SendTask;
+import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Test;
 import static com.jayway.restassured.RestAssured.*;
@@ -44,6 +45,7 @@ public class SendTaskApiAcceptanceTest {
     }
 
     @Test
+    @FlywayTest
     public void whenCallApiToGetSendTaskListShouldReturnTwoElementsList() {
         Collection<SendTask> taskList = sendTaskApi.list();
         assertNotNull(taskList);
