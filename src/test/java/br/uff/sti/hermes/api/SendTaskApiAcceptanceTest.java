@@ -44,7 +44,7 @@ public class SendTaskApiAcceptanceTest {
     }
 
     @Test
-    public void whenCallApiToGetSendTaskListShouldReturnStatusCode200() {
+    public void whenCallApiToGetSendTaskListShouldReturnTwoElementsList() {
         Collection<SendTask> taskList = sendTaskApi.list();
         assertNotNull(taskList);
 
