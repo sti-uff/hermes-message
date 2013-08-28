@@ -37,11 +37,6 @@ public class SendTaskApiAcceptanceTest {
     private SendTaskApi sendTaskApi;
     @Autowired
     private SendTaskDao sendTaskDao;
-
-    @BeforeClass
-    public void setup(){
-        
-    }
     
     @Test
     public void whenApplicationStartupSpringAutowiresSendTaskServiceOnSendTaskApi() {
