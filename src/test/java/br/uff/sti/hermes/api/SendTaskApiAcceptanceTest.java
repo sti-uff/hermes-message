@@ -70,4 +70,10 @@ public class SendTaskApiAcceptanceTest {
 //        
 //        get(API_GET_SEND_TASK_INFO + "1");
 //    }
+    
+    @Test
+    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
+        SendTask task = new SendTask("to", "replyTo", "subject", "content");
+        int taskId = sendTaskApi.create(task);
+    }
 }

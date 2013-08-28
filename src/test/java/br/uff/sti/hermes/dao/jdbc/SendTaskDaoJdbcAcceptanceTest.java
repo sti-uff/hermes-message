@@ -59,22 +59,13 @@ public class SendTaskDaoJdbcAcceptanceTest {
         assertEquals(2, allTasks.size());
     }
 
-    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
-    public void whenSaveTaskWithoutIdShouldRaiseError() {
-        SendTask task = new SendTask();
-        sendTaskDao.save(task);
-
-        fail("Saving clean SendTask withoud id should raise error!");
-    }
-
     @Test()
     public void whenSaveSendTaskShouldInsertAllAttributes() {
-        int taskId = 0;
-        SendTask taskToSave = new SendTask(taskId, "to", "replyto", "subject", "content", SendTask.Status.TODO);
-        sendTaskDao.save(taskToSave);
-        
+        SendTask taskToSave = new SendTask(null, "to", "replyto", "subject", "content", SendTask.Status.TODO);
+        int taskId = sendTaskDao.insert(taskToSave);
+
         SendTask savedTask = sendTaskDao.getById(taskId);
-        assertEquals(taskToSave.getId(), savedTask.getId());
+        assertTrue(taskId == savedTask.getId());
         assertEquals(taskToSave.getSendTo(), savedTask.getSendTo());
         assertEquals(taskToSave.getReplyTo(), savedTask.getReplyTo());
         assertEquals(taskToSave.getSubject(), savedTask.getSubject());

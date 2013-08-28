@@ -20,8 +20,10 @@ public class SendTaskService {
     @Autowired
     SendTaskDao sendTaskDao;
 
-    public void saveTask(SendTask task) {
-        sendTaskDao.save(task);
+    public SendTask save(SendTask task) {
+        int taskId = sendTaskDao.insert(task);
+        task.setId(taskId);
+        return task;
     }
 
     public SendTask getTaskbyId(int id) {

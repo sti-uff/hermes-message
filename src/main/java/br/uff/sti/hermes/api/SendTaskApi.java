@@ -7,7 +7,9 @@ package br.uff.sti.hermes.api;
 import br.uff.sti.hermes.model.SendTask;
 import br.uff.sti.hermes.service.SendTaskService;
 import java.util.Collection;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -40,14 +42,13 @@ public class SendTaskApi {
         return sendTaskService.getTaskbyId(id);
     }
     
-//    @POST
-//    @Path("/")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public SendTask create(SendTask task) {
-//        System.out.println("-----------------> create: " + task);
-//        return task;
-//    }
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public int create(SendTask task) {
+        sendTaskService.save(task);
+        return task.getId();
+    }
 
     SendTaskService getSendTaskService() {
         return this.sendTaskService;

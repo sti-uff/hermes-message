@@ -17,5 +17,5 @@ public interface SendTaskDao {
 
     public SendTask getById(int id);
 
-    public void save(SendTask task);
+    public int insert(SendTask task);
 }

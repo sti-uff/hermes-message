@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -22,7 +23,7 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
 
     static final String SQL_SELECT_BY_ID = "select * from sendtask where id = ?";
     static final String SQL_GET_ALL = "select * from sendtask";
-//    static final String SQL_INSERT = "insert into sendtask (sendto, replyto, subject, content, status, id) VALUES (?, ?, ?, ?, ?, ?)";
+    //TODO: review the sequence next value. This works for HSQL, but I think do not work for oracle or mysql.
     static final String SQL_INSERT = "insert into sendtask (id, sendto, replyto, subject, content, status) VALUES (?, ?, ?, ?, ?, ?)";
 
 //    @Autowired
@@ -33,17 +34,21 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
     }
 
     @Override
-    public void save(SendTask task) {
+    @Transactional
+    public int insert(SendTask task) {
+        Integer nextSeqVal = getJdbcTemplate().queryForInt("call NEXT VALUE FOR sendtask_seq");
 
         getJdbcTemplate().update(SQL_INSERT,
                 new Object[]{
-            task.getId(),
+            nextSeqVal,
             task.getSendTo(),
             task.getReplyTo(),
             task.getSubject(),
             task.getContent(),
             task.getStatus().toString()
         });
+
+        return nextSeqVal;
     }
 
     @Override
