@@ -12,6 +12,7 @@ import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,6 +38,11 @@ public class SendTaskApiAcceptanceTest {
     @Autowired
     private SendTaskDao sendTaskDao;
 
+    @BeforeClass
+    public void setup(){
+        
+    }
+    
     @Test
     public void whenApplicationStartupSpringAutowiresSendTaskServiceOnSendTaskApi() {
         assertNotNull(sendTaskApi.getSendTaskService());
@@ -71,9 +77,9 @@ public class SendTaskApiAcceptanceTest {
 //        get(API_GET_SEND_TASK_INFO + "1");
 //    }
     
-    @Test
-    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
-        SendTask task = new SendTask("to", "replyTo", "subject", "content");
-        int taskId = sendTaskApi.create(task);
-    }
+//    @Test
+//    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
+//        SendTask task = new SendTask("to", "replyTo", "subject", "content");
+//        int taskId = sendTaskApi.create(task);
+//    }
 }
