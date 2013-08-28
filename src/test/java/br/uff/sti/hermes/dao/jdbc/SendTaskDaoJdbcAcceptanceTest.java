@@ -64,12 +64,21 @@ public class SendTaskDaoJdbcAcceptanceTest {
         SendTask task = new SendTask();
         sendTaskDao.save(task);
 
-        fail("Saving clean SendTask should raise error!");
+        fail("Saving clean SendTask withoud id should raise error!");
     }
 
-    @Test
-    public void whenSaveTaskInsertAllAttributes() {
-        SendTask task = new SendTask(0, "to", "replyto", "subject", "content", SendTask.Status.TODO);
-        sendTaskDao.save(task);
+    @Test()
+    public void whenSaveSendTaskShouldInsertAllAttributes() {
+        int taskId = 0;
+        SendTask taskToSave = new SendTask(taskId, "to", "replyto", "subject", "content", SendTask.Status.TODO);
+        sendTaskDao.save(taskToSave);
+        
+        SendTask savedTask = sendTaskDao.getById(taskId);
+        assertEquals(taskToSave.getId(), savedTask.getId());
+        assertEquals(taskToSave.getSendTo(), savedTask.getSendTo());
+        assertEquals(taskToSave.getReplyTo(), savedTask.getReplyTo());
+        assertEquals(taskToSave.getSubject(), savedTask.getSubject());
+        assertEquals(taskToSave.getContent(), savedTask.getContent());
+        assertEquals(taskToSave.getStatus(), savedTask.getStatus());
     }
 }

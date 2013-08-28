@@ -27,14 +27,14 @@ public class SendTaskApi {
     private SendTaskService sendTaskService;
 
     @GET
-    @Path("/")
+    @Path("")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<SendTask> list() {
         return sendTaskService.getAll();
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public SendTask show(@PathParam(value = "id") int id) {
         return sendTaskService.getTaskbyId(id);
