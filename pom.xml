@@ -167,6 +167,26 @@
     
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jdbc.driver>${database.driver}</jdbc.driver>
+                        <jdbc.url>${database.url}</jdbc.url>
+                        <jdbc.username>${database.user}</jdbc.username>
+                        <jdbc.password>${database.password}</jdbc.password>
+                        <flyway.locations>db/migration</flyway.locations>
+                    </systemPropertyVariables>
+                    <threadCount>1</threadCount>
+                </configuration>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+                <executions>
+                </executions>
+            </plugin>
             <!--Jetty-->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -174,7 +194,7 @@
                 <version>6.1.26</version>
                 <configuration>
                     <!--Delete this block to have Jetty run default port (8080)-->
-<!--                    <connectors>
+                    <!--                    <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>9090</port>
                         </connector>
