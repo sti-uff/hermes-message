@@ -38,21 +38,30 @@ public class SendTaskDaoJdbcAcceptanceTest {
     }
 
     @Test
+    @FlywayTest
     public void whenGetByIdWithOneShouldReturnTestSubject() {
+        SendTask setupTask = new SendTask(null, "mail@send.to", "mail@reply.to", "test subject", "test mail", SendTask.Status.TODO);
+        sendTaskDao.insert(setupTask);
+
         SendTask task = sendTaskDao.getById(1);
 
         assertNotNull(task);
 
-        assertEquals("mail@send.to", task.getSendTo());
-        assertEquals("mail@reply.to", task.getReplyTo());
-        assertEquals("test subject", task.getSubject());
-        assertEquals("test mail", task.getContent());
-        assertEquals(SendTask.Status.TODO, task.getStatus());
+        assertEquals(setupTask.getSendTo(), task.getSendTo());
+        assertEquals(setupTask.getReplyTo(), task.getReplyTo());
+        assertEquals(setupTask.getSubject(), task.getSubject());
+        assertEquals(setupTask.getContent(), task.getContent());
+        assertEquals(setupTask.getStatus(), task.getStatus());
     }
 
     @FlywayTest
     @Test
     public void whenGetAllReturnTwoTestSubjects() {
+        SendTask setupTask = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
+        sendTaskDao.insert(setupTask);
+        setupTask = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
+        sendTaskDao.insert(setupTask);
+
         List<SendTask> allTasks = sendTaskDao.getAll();
 
         assertNotNull(allTasks);
@@ -60,6 +69,7 @@ public class SendTaskDaoJdbcAcceptanceTest {
     }
 
     @Test()
+    @FlywayTest
     public void whenSaveSendTaskShouldInsertAllAttributes() {
         SendTask taskToSave = new SendTask(null, "to", "replyto", "subject", "content", SendTask.Status.TODO);
         int taskId = sendTaskDao.insert(taskToSave);

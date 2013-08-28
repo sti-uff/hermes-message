@@ -13,7 +13,7 @@ import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,7 +38,16 @@ public class SendTaskApiAcceptanceTest {
     private SendTaskApi sendTaskApi;
     @Autowired
     private SendTaskDao sendTaskDao;
-    
+
+    @Before
+    public void setupTest() {
+        SendTask task = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
+        sendTaskDao.insert(task);
+
+        task = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
+        sendTaskDao.insert(task);
+    }
+
     @Test
     public void whenApplicationStartupSpringAutowiresSendTaskServiceOnSendTaskApi() {
         assertNotNull(sendTaskApi.getSendTaskService());
@@ -54,11 +63,13 @@ public class SendTaskApiAcceptanceTest {
     }
 
     @Test
+    @FlywayTest
     public void whenCallHttpApiToGetSendTaskListShouldReturnStatusCode200() {
         expect().statusCode(200).when().get(API_GET_SEND_TASK_BASE);
     }
 
     @Test
+    @FlywayTest
     public void whenCallApiToGetSendTaskOneInfoShouldReturnTestSubject() {
         assumeNotNull(sendTaskDao.getById(1));
         SendTask sendTask = sendTaskApi.show(1);
@@ -67,16 +78,22 @@ public class SendTaskApiAcceptanceTest {
         assertTrue(sendTask.getId() == 1);
     }
 
+    // -------------------- Http Tests
 //    @Test
-//    public void whenCallHttpApiToGetSendTaskOneInfoShouldReturnStatusCode200() {
+//    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() {
+//        SendTask setupTask = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
+//        sendTaskDao.insert(setupTask);
+//
 //        assumeNotNull(sendTaskDao.getById(1));
-//        
+//
 //        get(API_GET_SEND_TASK_INFO + "1");
 //    }
-    
+
 //    @Test
 //    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
 //        SendTask task = new SendTask("to", "replyTo", "subject", "content");
 //        int taskId = sendTaskApi.create(task);
+//
+//        assertEquals(1, taskId);
 //    }
 }
