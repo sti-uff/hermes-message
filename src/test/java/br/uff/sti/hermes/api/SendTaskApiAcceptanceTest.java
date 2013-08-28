@@ -64,10 +64,10 @@ public class SendTaskApiAcceptanceTest {
         assertTrue(sendTask.getId() == 1);
     }
 
-    @Test
-    public void whenCallHttpApiToGetSendTaskOneInfoShouldReturnStatusCode200() {
-        assumeNotNull(sendTaskDao.getById(1));
-        
-        get(API_GET_SEND_TASK_INFO + "1");
-    }
+//    @Test
+//    public void whenCallHttpApiToGetSendTaskOneInfoShouldReturnStatusCode200() {
+//        assumeNotNull(sendTaskDao.getById(1));
+//        
+//        get(API_GET_SEND_TASK_INFO + "1");
+//    }
 }
