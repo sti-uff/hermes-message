@@ -1,7 +1,9 @@
 sending-message
 ===============
 
-An app to send mail and sms messages for sti-uff.
+An app to send mail and sms messages for sti-uff through an API.
+
+__API description:__ https://github.com/sti-uff/hermes-message/wiki/API
 
 GitHub Quality
 ---
