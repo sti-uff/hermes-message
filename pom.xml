@@ -22,7 +22,7 @@
                 The default H2 behavior is to delete the db when the last conection is closed.
                 This tells the H2 to not close the database until JVM halt. 
         -->
-        <database.url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</database.url>
+        <database.url>jdbc:h2:file:target/test</database.url>
         <database.user>sa</database.user>
         <database.password>sa</database.password>
     </properties>
@@ -209,12 +209,9 @@
                         </connector>
                     </connectors>-->
                     <contextPath>/</contextPath>
-                    <scanIntervalSeconds>3</scanIntervalSeconds>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
-
-                    <!-- Where the BeanManager is constructed. This is where we'll later declare datasource. -->
-                    <!--<jettyEnvXml>${basedir}/src/main/resources/jetty/jetty-env.xml</jettyEnvXml>-->
                 </configuration>
                 
                 <executions>
@@ -229,7 +226,14 @@
                             <daemon>true</daemon>
                         </configuration>
                     </execution>
-                </executions>  
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             
             <!--FlyWay-->

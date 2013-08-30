@@ -11,6 +11,7 @@ import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Test;
 import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
+import javax.ws.rs.core.Response;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import org.junit.Before;
@@ -80,21 +81,21 @@ public class SendTaskApiAcceptanceTest {
         assertTrue(sendTask.getId() == 1);
     }
 
+    @Test
+    @FlywayTest
+    public void whenCallApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
+        SendTask task = new SendTask("to", "replyTo", "subject", "content");
+        int taskId = sendTaskApi.create(task);
+
+        assertEquals(3, taskId);
+    }
+    
     // -------------------- Http Tests
     @Test
     @FlywayTest
     public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() {
         assumeNotNull(sendTaskDao.getById(1));
 
-        get(API_GET_SEND_TASK_INFO + "1");
-    }
-
-    @Test
-    @FlywayTest
-    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
-        SendTask task = new SendTask("to", "replyTo", "subject", "content");
-        int taskId = sendTaskApi.create(task);
-
-        assertEquals(3, taskId);
+        expect().statusCode(200).when().get(API_GET_SEND_TASK_INFO + "1");
     }
 }
