@@ -13,18 +13,28 @@
         <jetty.version>7.1.6.v20100715</jetty.version>
         <spring.version>3.1.2.RELEASE</spring.version>
         <jersey.version>1.17.1</jersey.version>
-        <database.driver>org.hsqldb.jdbcDriver</database.driver>
+        <database.driver>org.h2.Driver</database.driver>
         <database.schema>hermes-db</database.schema>
-        <database.url>jdbc:hsqldb:mem:${database.schema}</database.url>
+        <!-- Database URL propperties: http://www.h2database.com/html/features.html#database_url
+        
+            http://www.h2database.com/html/features.html#in_memory_databases
+            DB_CLOSE_DELAY=-1 -> 
+                The default H2 behavior is to delete the db when the last conection is closed.
+                This tells the H2 to not close the database until JVM halt. 
+                
+            http://www.h2database.com/html/features.html#compatibility
+            MODE=MySQL
+        -->
+        <database.url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL</database.url>
         <database.user>sa</database.user>
         <database.password>sa</database.password>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.0</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.173</version>
         </dependency>
         
         <!-- Spring 3 dependencies -->
@@ -181,10 +191,12 @@
                     </systemPropertyVariables>
                     <threadCount>1</threadCount>
                 </configuration>
-                <goals>
-                    <goal>test</goal>
-                </goals>
                 <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <!--Jetty-->
