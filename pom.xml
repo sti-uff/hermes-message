@@ -21,11 +21,8 @@
             DB_CLOSE_DELAY=-1 -> 
                 The default H2 behavior is to delete the db when the last conection is closed.
                 This tells the H2 to not close the database until JVM halt. 
-                
-            http://www.h2database.com/html/features.html#compatibility
-            MODE=MySQL
         -->
-        <database.url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL</database.url>
+        <database.url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</database.url>
         <database.user>sa</database.user>
         <database.password>sa</database.password>
     </properties>
