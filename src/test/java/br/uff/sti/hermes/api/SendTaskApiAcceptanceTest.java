@@ -41,9 +41,11 @@ public class SendTaskApiAcceptanceTest {
 
     @Before
     public void setupTest() {
+        //id = 1
         SendTask task = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
         sendTaskDao.insert(task);
 
+        //id = 2
         task = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
         sendTaskDao.insert(task);
     }
@@ -79,21 +81,20 @@ public class SendTaskApiAcceptanceTest {
     }
 
     // -------------------- Http Tests
-//    @Test
-//    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() {
-//        SendTask setupTask = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
-//        sendTaskDao.insert(setupTask);
-//
-//        assumeNotNull(sendTaskDao.getById(1));
-//
-//        get(API_GET_SEND_TASK_INFO + "1");
-//    }
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() {
+        assumeNotNull(sendTaskDao.getById(1));
 
-//    @Test
-//    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
-//        SendTask task = new SendTask("to", "replyTo", "subject", "content");
-//        int taskId = sendTaskApi.create(task);
-//
-//        assertEquals(1, taskId);
-//    }
+        get(API_GET_SEND_TASK_INFO + "1");
+    }
+
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
+        SendTask task = new SendTask("to", "replyTo", "subject", "content");
+        int taskId = sendTaskApi.create(task);
+
+        assertEquals(3, taskId);
+    }
 }
