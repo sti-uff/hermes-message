@@ -6,15 +6,16 @@ package br.uff.sti.hermes.api;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
 import br.uff.sti.hermes.model.SendTask;
+import br.uff.sti.hermes.service.SendTaskService;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Test;
 import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
-import javax.ws.rs.core.Response;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import org.junit.Before;
+import static org.mockito.Mockito.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,20 +36,20 @@ public class SendTaskApiAcceptanceTest {
 
     private static final String API_GET_SEND_TASK_BASE = "api/sendtasks/";
     private static final String API_GET_SEND_TASK_INFO = API_GET_SEND_TASK_BASE;
+    private static final String API_POST_NEW_SEND_TASK = API_GET_SEND_TASK_BASE;
     @Autowired
     private SendTaskApi sendTaskApi;
     @Autowired
     private SendTaskDao sendTaskDao;
+    private final SendTask taskOne = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
+    private final SendTask taskTwo = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
 
     @Before
     public void setupTest() {
         //id = 1
-        SendTask task = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
-        sendTaskDao.insert(task);
-
+        sendTaskDao.insert(taskOne);
         //id = 2
-        task = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
-        sendTaskDao.insert(task);
+        sendTaskDao.insert(taskTwo);
     }
 
     @Test
@@ -83,13 +84,26 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallApiToPostSendTaskShouldSaveAndReturnTheTaskId() {
+    public void whenCallApiToCreateSendTaskWithParametersShouldSaveAndReturnTheTaskId() {
         SendTask task = new SendTask("to", "replyTo", "subject", "content");
-        int taskId = sendTaskApi.create(task);
 
-        assertEquals(3, taskId);
+        Integer taskId = sendTaskApi.create(task.getSendTo(), task.getReplyTo(), task.getSubject(), task.getContent());
+
+        assertNotNull(taskId);
+        assertTrue(3 == taskId);
     }
-    
+
+    @Test
+    @FlywayTest
+    public void whenCallApiToCreateSendTaskWithParameterSendTaskShouldSaveAndReturnTheTaskId() {
+        SendTask task = new SendTask("to", "replyTo", "subject", "content");
+
+        Integer taskId = sendTaskApi.create(task);
+
+        assertNotNull(taskId);
+        assertTrue(3 == taskId);
+    }
+
     // -------------------- Http Tests
     @Test
     @FlywayTest
@@ -97,5 +111,41 @@ public class SendTaskApiAcceptanceTest {
         assumeNotNull(sendTaskDao.getById(1));
 
         expect().statusCode(200).when().get(API_GET_SEND_TASK_INFO + "1");
+
+    }
+
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnAllInformation() {
+        assumeNotNull(sendTaskDao.getById(1));
+
+        SendTask returnedTask = get(API_GET_SEND_TASK_INFO + "1").as(SendTask.class);
+
+        assertEquals(taskOne.getSendTo(), returnedTask.getSendTo());
+        assertEquals(taskOne.getReplyTo(), returnedTask.getReplyTo());
+        assertEquals(taskOne.getSubject(), returnedTask.getSubject());
+        assertEquals(taskOne.getContent(), returnedTask.getContent());
+        assertEquals(taskOne.getStatus(), returnedTask.getStatus());
+    }
+
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToPostSendTaskShouldReturnStatus200AndSendTaskId() {
+        final String to = "test.to";
+        final String replyTo = "test.replyTo";
+        final String subject = "test.subject";
+        final String content = "test.content";
+
+        Integer id = expect().statusCode(200)
+                .given()
+                .param("to", to)
+                .param("replyTo", replyTo)
+                .param("subject", subject)
+                .param("content", content)
+                .when().post(API_POST_NEW_SEND_TASK).as(Integer.class);
+
+        assertNotNull(id);
+
+        assertNotNull(sendTaskDao.getById(id));
     }
 }
