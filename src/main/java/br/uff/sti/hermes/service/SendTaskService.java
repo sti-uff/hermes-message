@@ -7,6 +7,7 @@ package br.uff.sti.hermes.service;
 import br.uff.sti.hermes.dao.SendTaskDao;
 import br.uff.sti.hermes.model.SendTask;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,14 @@ import org.springframework.stereotype.Component;
 public class SendTaskService {
 
     @Autowired
-    SendTaskDao sendTaskDao;
+    private SendTaskDao sendTaskDao;
 
     public SendTask save(SendTask task) {
-        int taskId = sendTaskDao.insert(task);
-        task.setId(taskId);
+        if (task.getId() == null) {
+            insert(task);
+        } else {
+            update(task);
+        }
         return task;
     }
 
@@ -32,5 +36,25 @@ public class SendTaskService {
 
     public Collection<SendTask> getAll() {
         return sendTaskDao.getAll();
+    }
+
+    public List<SendTask> getByStatus(SendTask.Status status) {
+        return sendTaskDao.getByStatus(status);
+    }
+
+    private void insert(SendTask task) {
+        int taskId = sendTaskDao.insert(task);
+        task.setId(taskId);
+    }
+
+    private void update(SendTask task) {
+        sendTaskDao.update(task);
+    }
+
+    /**
+     * @param sendTaskDao the sendTaskDao to set
+     */
+    public void setSendTaskDao(SendTaskDao sendTaskDao) {
+        this.sendTaskDao = sendTaskDao;
     }
 }

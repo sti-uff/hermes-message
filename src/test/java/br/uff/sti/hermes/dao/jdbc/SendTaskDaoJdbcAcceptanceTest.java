@@ -54,8 +54,8 @@ public class SendTaskDaoJdbcAcceptanceTest {
         assertEquals(setupTask.getStatus(), task.getStatus());
     }
 
-    @FlywayTest
     @Test
+    @FlywayTest
     public void whenGetAllReturnTwoTestSubjects() {
         SendTask setupTask = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
         sendTaskDao.insert(setupTask);
@@ -81,5 +81,27 @@ public class SendTaskDaoJdbcAcceptanceTest {
         assertEquals(taskToSave.getSubject(), savedTask.getSubject());
         assertEquals(taskToSave.getContent(), savedTask.getContent());
         assertEquals(taskToSave.getStatus(), savedTask.getStatus());
+    }
+
+    @Test()
+    @FlywayTest
+    public void whenUpdateSendTaskShouldUpdateAllAttributesOtherThanId() {
+        SendTask taskToSave = new SendTask(null, "to", "replyto", "subject", "content", SendTask.Status.TODO);
+        int taskId = sendTaskDao.insert(taskToSave);
+        SendTask taskToUpdate = sendTaskDao.getById(taskId);
+
+        taskToUpdate.setSendTo("updated SendTo");
+        taskToUpdate.setReplyTo("updated ReplyTo");
+        taskToUpdate.setSubject("updated Subject");
+        taskToUpdate.setContent("updated Content");
+        taskToUpdate.setStatus(SendTask.Status.DONE);
+        sendTaskDao.update(taskToUpdate);
+
+        SendTask dbtask = sendTaskDao.getById(taskId);
+        assertEquals(taskToUpdate.getSendTo(), dbtask.getSendTo());
+        assertEquals(taskToUpdate.getReplyTo(), dbtask.getReplyTo());
+        assertEquals(taskToUpdate.getSubject(), dbtask.getSubject());
+        assertEquals(taskToUpdate.getContent(), dbtask.getContent());
+        assertEquals(taskToUpdate.getStatus(), dbtask.getStatus());
     }
 }

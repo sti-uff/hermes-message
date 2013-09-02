@@ -18,4 +18,8 @@ public interface SendTaskDao {
     public SendTask getById(int id);
 
     public int insert(SendTask task);
+
+    public List<SendTask> getByStatus(SendTask.Status status);
+
+    public void update(SendTask task);
 }
