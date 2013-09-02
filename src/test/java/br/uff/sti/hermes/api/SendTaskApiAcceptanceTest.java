@@ -6,7 +6,6 @@ package br.uff.sti.hermes.api;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
 import br.uff.sti.hermes.model.SendTask;
-import br.uff.sti.hermes.service.SendTaskService;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import org.junit.Before;
-import static org.mockito.Mockito.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -95,7 +93,7 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallApiToCreateSendTaskWithParameterSendTaskShouldSaveAndReturnTheTaskId() {
+    public void whenCallApiToCreateNewSendTaskShouldReturnTheTasksId() {
         SendTask task = new SendTask("to", "replyTo", "subject", "content");
 
         Integer taskId = sendTaskApi.create(task);
@@ -111,7 +109,6 @@ public class SendTaskApiAcceptanceTest {
         assumeNotNull(sendTaskDao.getById(1));
 
         expect().statusCode(200).when().get(API_GET_SEND_TASK_INFO + "1");
-
     }
 
     @Test
