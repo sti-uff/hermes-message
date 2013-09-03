@@ -9,8 +9,8 @@ __API description:__ https://github.com/sti-uff/hermes-message/wiki/API
 
 Why another email API?
 ---
-__A little bit of motivation (for us):__ Today in STI-UFF we have more than 10 projects that send email, throught our internal mail server. 
-But we're studing to change to AWS somaday or other mail service. Thus, not to change all applications everytime, Hermes is our API interface to send mail.
+__A little bit of motivation (for us):__ Today in STI-UFF we have more than 10 projects that send email, through our internal mail server. 
+However, we're studying to change to AWS someday or other mail service. Thus, not to change all applications every time, Hermes is our API interface to send mail.
 It's another level of abstraction.
 
 __general motivation__
