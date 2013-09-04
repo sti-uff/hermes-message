@@ -30,7 +30,7 @@ public class EmailService {
         }
         message.setSubject(subject);
         message.setText(msg);
-        mailSender.send(message);
+        getMailSender().send(message);
     }
 
     /**
@@ -38,6 +38,13 @@ public class EmailService {
      */
     public void setMailSender(MailSender mailSender) {
         this.mailSender = mailSender;
+    }
+
+    /**
+     * @return the mailSender
+     */
+    public MailSender getMailSender() {
+        return mailSender;
     }
     
     
