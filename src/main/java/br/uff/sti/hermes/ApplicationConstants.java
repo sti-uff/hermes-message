@@ -13,8 +13,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplicationConstants {
+    public static final String MAIL_SEPARATOR = ";";
 
     @Value("${mail.default.from}")
     public String EMAIL_FROM;
-
+    @Value("${mail.max.recipients}")
+    public int MAX_RECEPIENTS_PER_EMAIL;
+    /**
+     * 99 is Gmail limit for smtp emails.
+     */
+    public static final int DEFAULT_MAX_RECEPIENTS_PER_EMAIL = 99;
 }
