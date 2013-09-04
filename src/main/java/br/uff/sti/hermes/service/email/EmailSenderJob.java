@@ -24,6 +24,7 @@ public class EmailSenderJob {
     private SendTaskService sendTaskService;
 
     public void processSendTasks() {
+        Logger.getLogger(EmailSenderJob.class).info("Begin Job: send emails");
         try {
             List<SendTask> tasks = sendTaskService.getByStatus(SendTask.Status.TODO);
 
@@ -40,6 +41,7 @@ public class EmailSenderJob {
              */
             Logger.getLogger(EmailSenderJob.class).error("Error executing processSendTasks", ex);
         }
+        Logger.getLogger(EmailSenderJob.class).info("Finished Job: send emails");
     }
 
     /**
