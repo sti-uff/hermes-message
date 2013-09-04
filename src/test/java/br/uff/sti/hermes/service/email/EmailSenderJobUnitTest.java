@@ -60,8 +60,7 @@ public class EmailSenderJobUnitTest {
 
         emailSender.processSendTasks();
 
-        verify(emailSender).updateSendTaskStatus(mockedTask, SendTask.Status.DOING); //first call
-        verify(emailSender).updateSendTaskStatus(mockedTask, SendTask.Status.DONE); //second call
+        verify(emailSender).updateSendTaskStatus(mockedTask, SendTask.Status.DONE);
     }
 
     @Test

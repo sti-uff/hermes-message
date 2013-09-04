@@ -28,7 +28,6 @@ public class EmailSenderJob {
             List<SendTask> tasks = sendTaskService.getByStatus(SendTask.Status.TODO);
 
             for (SendTask sendTask : tasks) {
-                updateSendTaskStatus(sendTask, SendTask.Status.DOING);
                 emailService.sendMail(sendTask);
                 updateSendTaskStatus(sendTask, SendTask.Status.DONE);
             }
