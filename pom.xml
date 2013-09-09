@@ -13,8 +13,6 @@
         <jetty.version>7.1.6.v20100715</jetty.version>
         <spring.version>3.1.2.RELEASE</spring.version>
         <jersey.version>1.17.1</jersey.version>
-        <database.driver>org.h2.Driver</database.driver>
-        <database.schema>hermes-db</database.schema>
         <!-- Database URL propperties: http://www.h2database.com/html/features.html#database_url
         
             http://www.h2database.com/html/features.html#in_memory_databases
@@ -22,9 +20,20 @@
                 The default H2 behavior is to delete the db when the last conection is closed.
                 This tells the H2 to not close the database until JVM halt. 
         -->
+        <!--
+        <database.driver>org.h2.Driver</database.driver>
+        <database.schema>hermes-db</database.schema>
         <database.url>jdbc:h2:file:target/test</database.url>
         <database.user>sa</database.user>
         <database.password>sa</database.password>
+        -->
+        
+        <database.driver>com.mysql.jdbc.Driver</database.driver>
+        <database.schema>hermes</database.schema>
+        <database.url>jdbc:mysql://localhost:3306/hermes</database.url>
+        <database.user>root</database.user>
+        <database.password></database.password>
+        
     </properties>
 
     <dependencies>
@@ -209,6 +218,13 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        
+        <!-- MySQL Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.26</version>
         </dependency>
     </dependencies>
     

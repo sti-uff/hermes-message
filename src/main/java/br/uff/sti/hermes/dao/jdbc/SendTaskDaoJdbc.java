@@ -26,8 +26,8 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
     static final String SQL_GET_ALL = "select * from sendtask";
     static final String SQL_GET_BY_STATUS = "select * from sendtask where status = ?";
     //TODO: review the sequence next value. This works for HSQL, but I think do not work for oracle or mysql.
-    static final String SQL_INSERT = "insert into sendtask (id, sendto, replyto, subject, content, status) VALUES (?, ?, ?, ?, ?, ?)";
-    static final String SQL_UPDATE = "update sendtask set (sendto, replyto, subject, content, status) = (?, ?, ?, ?, ?) where id = ?";
+    static final String SQL_INSERT = "insert into sendtask (sendto, replyto, subject, content, status) VALUES (?, ?, ?, ?, ?)";
+    static final String SQL_UPDATE = "update sendtask set sendto=?, replyto=?, subject=?, content=?, status=? where id = ?";
 
 //    @Autowired
 //    private DataSource dataSource;
@@ -39,17 +39,17 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
     @Override
     @Transactional
     public int insert(SendTask task) {
-        Integer nextSeqVal = getJdbcTemplate().queryForInt("call NEXT VALUE FOR sendtask_seq");
-
+        
         getJdbcTemplate().update(SQL_INSERT,
                 new Object[]{
-            nextSeqVal,
             task.getSendTo(),
             task.getReplyTo(),
             task.getSubject(),
             task.getContent(),
             task.getStatus().toString()
         });
+        
+        Integer nextSeqVal = getJdbcTemplate().queryForInt("select max(id) from sendtask");
 
         return nextSeqVal;
     }
