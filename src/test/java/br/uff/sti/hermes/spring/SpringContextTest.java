@@ -15,7 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
  * @author dancastellani
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/applicationContext.xml")
+@ContextConfiguration(locations = "/spring/applicationContext.xml")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public class SpringContextTest {
 

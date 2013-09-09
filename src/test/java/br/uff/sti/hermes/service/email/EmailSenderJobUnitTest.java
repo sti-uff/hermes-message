@@ -1,5 +1,6 @@
 package br.uff.sti.hermes.service.email;
 
+import br.uff.sti.hermes.ApplicationConstants;
 import br.uff.sti.hermes.model.SendTask;
 import br.uff.sti.hermes.service.SendTaskService;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class EmailSenderJobUnitTest {
     private EmailSenderJob emailSender;
     private SendTaskService sendTaskServiceMock;
     private EmailService emailServiceMock;
+    private ApplicationConstants applicationConstants;
 
     @Before
     public void setup() {
@@ -27,6 +29,9 @@ public class EmailSenderJobUnitTest {
 
         emailServiceMock = mock(EmailService.class);
         emailSender.setEmailService(emailServiceMock);
+
+        applicationConstants = new ApplicationConstants();
+        emailSender.setApplicationConstants(null);
     }
 
     @Test

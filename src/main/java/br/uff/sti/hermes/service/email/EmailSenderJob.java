@@ -4,6 +4,7 @@
  */
 package br.uff.sti.hermes.service.email;
 
+import br.uff.sti.hermes.ApplicationConstants;
 import br.uff.sti.hermes.model.SendTask;
 import br.uff.sti.hermes.service.SendTaskService;
 import java.util.List;
@@ -22,6 +23,16 @@ public class EmailSenderJob {
     private EmailService emailService;
     @Autowired
     private SendTaskService sendTaskService;
+    @Autowired
+    private ApplicationConstants applicationConstants;
+
+    public void execute() {
+        if (applicationConstants.RUN_JOBS) {
+            processSendTasks();
+        } else {
+            Logger.getLogger(EmailSenderJob.class).debug("Skipping Job...");
+        }
+    }
 
     public void processSendTasks() {
         Logger.getLogger(EmailSenderJob.class).info("Begin Job: send emails");
@@ -32,6 +43,7 @@ public class EmailSenderJob {
                 emailService.sendMail(sendTask);
                 updateSendTaskStatus(sendTask, SendTask.Status.DONE);
             }
+            Logger.getLogger(EmailSenderJob.class).info("Finished Job: send emails");
 
         } catch (RuntimeException ex) {
             /*
@@ -41,7 +53,6 @@ public class EmailSenderJob {
              */
             Logger.getLogger(EmailSenderJob.class).error("Error executing processSendTasks", ex);
         }
-        Logger.getLogger(EmailSenderJob.class).info("Finished Job: send emails");
     }
 
     /**
@@ -61,5 +72,12 @@ public class EmailSenderJob {
     void updateSendTaskStatus(SendTask sendTask, SendTask.Status status) {
         sendTask.setStatus(status);
         sendTaskService.save(sendTask);
+    }
+
+    /**
+     * @param applicationConstants the applicationConstants to set
+     */
+    public void setApplicationConstants(ApplicationConstants applicationConstants) {
+        this.applicationConstants = applicationConstants;
     }
 }
