@@ -36,6 +36,25 @@
         
     </properties>
 
+    <profiles>
+        <profile>
+            <id>Developement</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <run.jobs>false</run.jobs>
+            </properties>
+        </profile>
+        <profile>
+            <id>Production</id>
+            <properties>
+                <run.jobs>true</run.jobs>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.h2database</groupId>

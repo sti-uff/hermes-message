@@ -19,6 +19,10 @@ public class ApplicationConstants {
     public String EMAIL_FROM;
     @Value("${mail.max.recipients}")
     public int MAX_RECEPIENTS_PER_EMAIL;
+    @Value("${run.jobs}")
+    public Boolean RUN_JOBS;
+    @Value("${mail.job.interval}")
+    public Long MAIL_JOB_INTERVAL;
     /**
      * 99 is Gmail limit for smtp emails.
      */

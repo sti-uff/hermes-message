@@ -20,8 +20,6 @@ import static org.junit.Assert.*;
  *
  * @author dancastellani
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/applicationContext.xml")
 public class SendTaskApiUnitTest {
 
     @Autowired
@@ -30,6 +28,8 @@ public class SendTaskApiUnitTest {
 
     @Before
     public void setup() {
+        sendTaskApi = new SendTaskApi();
+        
         serviceMock = mock(SendTaskService.class);
         sendTaskApi.setSendTaskService(serviceMock);
     }
