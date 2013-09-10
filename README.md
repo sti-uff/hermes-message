@@ -1,7 +1,6 @@
-Hermes-message
+Hermes-message [![Build Status](https://travis-ci.org/sti-uff/hermes-message.png?branch=master)](https://travis-ci.org/sti-uff/hermes-message)
 ===============
 
-[![Build Status](https://travis-ci.org/sti-uff/hermes-message.png?branch=master)](https://travis-ci.org/sti-uff/hermes-message)
 
 Hermes is an app to send mail and sms messages. It is used and developed by STI-UFF, but anyone that wants can use it.
 
