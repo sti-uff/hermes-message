@@ -18,3 +18,25 @@ __General motivation__
 * It enables you to send mass mail without the anoyance of group or recepient limits, as it abstracts this.
 * Also, with it you can know how much emails each application sent, etc, etc, etc.
 
+How it works?
+---
+
+Basically it receives API or web (in future versions) requests to send emails and latter sends them as configured to do. 
+The API documentation is on the [wiki](https://github.com/sti-uff/hermes-message/wiki/API).
+
+How to use it?
+---
+
+Replace the $TOMCAT_HOME with your tomcat 6 folder when needed.
+
+1. Clone the source
+<pre> git clone https://github.com/sti-uff/hermes-message.git </pre>
+2. Fill the file [config.properties](https://github.com/sti-uff/hermes-message/blob/master/src/main/resources/config.properties) (in src/main/resources) with your configuration
+<pre> vim hermes-message/src/main/resources/config.properties </pre>
+3. Use Maven to build the war
+<pre> mvn clean war -DskipTests=true </pre>
+4. Deploy it under a Tomcat 6 (or Jetty 7) 
+<pre> cp hermes-message/target/hermes.war $TOMCAT_HOME/webapps/ </pre>
+5. Run Tomcat
+<pre> ./ $TOMCAT_HOME/bin/startup.sh </pre>
+
