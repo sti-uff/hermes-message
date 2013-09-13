@@ -8,34 +8,28 @@
         <script src="sendtasks.js"></script>
     </head>
     <body>
-        <h2>Send Tasks</h2>
-        <div ng-controller="ListCtrl" style="border: 1px">
-            <input type="text" ng-model="search" class="search-query" placeholder="Search">
-            <table class="table-striped">
-                <thead>
-                    <tr>
-                        <th>Send To</th>
-                        <th>Reply To</th>
-                        <th>Subject</th>
-                        <th>Content</th>
-                        <th>Status</th>
-                        <th><a href="#/new"><i class="icon-plus-sign"></i></a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="sendtask in sendtasks | filter:search | orderBy:'to'">
-                        <td>{{sendtask.sendTo}}</td>
-                        <td>{{sendtask.replyTo}}</td>
-                        <td>{{sendtask.subject}}</td>
-                        <td>{{sendtask.content}}</td>
-                        <td>{{sendtask.status}}</td>
-                        <td></td>
-                        <!--    <td>
-                              <a href="#/edit/{{project.$id}}"><i class="icon-pencil"></i></a>
-                            </td>-->
-                    </tr>
-                </tbody>
-            </table>
+        <h2>New Send Task</h2>
+        <div ng-controller="NewCtrl">
+            <form id="formNewSendTask" novalidate class="form-horizontal" role="form">
+                <div class="form-group" >
+                    <label for="sendTo" class="col-lg-2 control-label">Send To</label>
+                    <input id="sendTo" type="email" ng-model="sendtask.sendTo" placeholder="Send To">
+                </div>
+                <div class="form-group" >
+                    <label for="sendTo" class="col-lg-2 control-label">Reply To</label>
+                    <input id="sendTo" type="email" ng-model="sendtask.replyTo" placeholder="Reply To">
+                </div>
+                <div class="form-group" >
+                    <label for="sendTo" class="col-lg-2 control-label">Subject</label>
+                    <input id="sendTo" type="text" ng-model="sendtask.subject" placeholder="Subject">
+                </div>
+                <div class="form-group" >
+                    <label for="content" class="col-lg-2 control-label">Content</label>
+                    <textarea id="content" form="formNewSendTask" rows="10" cols="50" ng-model="sendtask.content" placeholder="Content"/>
+                </div>
+                <button ng-click="reset()" class="btn-danger">RESET</button>
+                <button ng-click="save(sendtask)" class="btn-success">SAVE</button>
+            </form>
         </div>
     </body>
 </html>
