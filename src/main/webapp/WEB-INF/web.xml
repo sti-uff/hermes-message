@@ -7,7 +7,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>/api/sendtasks/</welcome-file>
+        <welcome-file>/api/api-docs</welcome-file>
     </welcome-file-list>
     
     <!--Jetty Deny of Service Filter - Throttle-->
