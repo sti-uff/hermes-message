@@ -19,6 +19,7 @@ function NewCtrl($scope, $http) {
             $scope.answerClass = 'success';
             $scope.answer = 'Task created. Id = ' + data;
 
+            window.location.replace("index.html");
         }).error(function(status) {
             $scope.answerClass = 'danger';
             $scope.answer = 'Error! HTML status code = ' + status;
