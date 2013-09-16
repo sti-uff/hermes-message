@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +51,7 @@ public class SendTaskApi {
             @FormParam("replyTo") String replyTo,
             @FormParam("subject") String subject,
             @FormParam("content") String content) {
+        Logger.getLogger(SendTaskApi.class).debug("Create with form params");
 
         SendTask task = new SendTask(to, replyTo, subject, content);
         return create(task);
@@ -60,7 +62,10 @@ public class SendTaskApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Integer create(SendTask task) {
+        Logger.getLogger(SendTaskApi.class).debug("Create task: " + task);
+
         sendTaskService.save(task);
+        Logger.getLogger(SendTaskApi.class).debug("Created: " + task.getId());
         return task.getId();
     }
 
