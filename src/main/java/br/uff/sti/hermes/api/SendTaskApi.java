@@ -18,11 +18,15 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
  *
  * @author dancastellani
  */
+@Api(value = "/sendtasks", description = "Operations about SendTasks. This Api is to create and retrieve status about the emails sending tasks.")
+@Produces({"application/json", "application/xml"})
 @Component
 @Path("/sendtasks")
 public class SendTaskApi {
@@ -30,6 +34,7 @@ public class SendTaskApi {
     @Autowired
     private SendTaskService sendTaskService;
 
+    @ApiOperation(value = "List SendTasks", notes = "More notes about this method", response = Collection.class)
     @GET
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +42,7 @@ public class SendTaskApi {
         return sendTaskService.getAll();
     }
 
+    @ApiOperation(value = "Show details of a SendTask by id", notes = "More notes about this method", response = SendTask.class)
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +50,7 @@ public class SendTaskApi {
         return sendTaskService.getTaskbyId(id);
     }
 
+    @ApiOperation(value = "Create a new SendTask with form params", notes = "More notes about this method", response = Integer.class)
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +64,7 @@ public class SendTaskApi {
         return create(task);
     }
 
+    @ApiOperation(value = "Create a new SendTask with a SendTask JSON", notes = "More notes about this method", response = Integer.class)
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
