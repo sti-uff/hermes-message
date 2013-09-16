@@ -58,7 +58,7 @@ public class SendTaskApi {
             @FormParam("replyTo") String replyTo,
             @FormParam("subject") String subject,
             @FormParam("content") String content) {
-        Logger.getLogger(SendTaskApi.class).debug("Create with form params");
+        Logger.getLogger(SendTaskApi.class).info("Create with form params");
 
         SendTask task = new SendTask(to, replyTo, subject, content);
         return create(task);
@@ -70,10 +70,10 @@ public class SendTaskApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Integer create(SendTask task) {
-        Logger.getLogger(SendTaskApi.class).debug("Create task: " + task);
+        Logger.getLogger(SendTaskApi.class).info("Create task: " + task);
 
         sendTaskService.save(task);
-        Logger.getLogger(SendTaskApi.class).debug("Created: " + task.getId());
+        Logger.getLogger(SendTaskApi.class).info("Created: " + task.getId());
         return task.getId();
     }
 
