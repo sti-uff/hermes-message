@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="sendtask in sendtasks | filter:search | orderBy:'to'">
+                    <tr ng-repeat="sendtask in sendtasks | filter:search | orderBy:'sendTo'">
                         <td>{{sendtask.sendTo}}</td>
                         <td>{{sendtask.replyTo}}</td>
                         <td>{{sendtask.subject}}</td>
