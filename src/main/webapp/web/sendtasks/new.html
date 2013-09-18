@@ -12,27 +12,27 @@
 
             <strong class="btn-{{answerClass}}"> {{answer}} </strong><br/>
 
-            <form id="formNewSendTask" novalidate class="form-horizontal" role="form">
-                <div class="form-group" >
-                    <label for="sendTo" class="col-lg-2 control-label">Send To</label>
+            <form id="formNewSendTask" novalidate >
+                <div >
+                    <label for="sendTo" >Send To</label>
                     <input id="sendTo" type="text" ng-model="newSendTask.sendTo" placeholder="Send To">
                 </div>
-                <div class="form-group" >
-                    <label for="sendTo" class="col-lg-2 control-label">Reply To</label>
+                <div >
+                    <label for="sendTo" >Reply To</label>
                     <input id="sendTo" type="text" ng-model="newSendTask.replyTo" placeholder="Reply To">
                 </div>
-                <div class="form-group" >
-                    <label for="sendTo" class="col-lg-2 control-label">Subject</label>
+                <div >
+                    <label for="sendTo" >Subject</label>
                     <input id="sendTo" type="text" ng-model="newSendTask.subject" placeholder="Subject">
                 </div>
-                <div class="form-group" >
-                    <label for="content" class="col-lg-2 control-label">Content</label>
+                <div >
+                    <label for="content" >Content</label>
                     <!--<input id="content" type="text" ng-model="newSendTask.content" placeholder="Content">-->
                     <textarea id="content" ng-model="newSendTask.content" placeholder="Content" rows="10" cols="50" ></textarea>
                 </div>
-                <div class="form-group" >
-                    <button ng-click="reset()" class="btn btn-danger">RESET</button>
-                    <button ng-click="save()" class="btn btn-success">SAVE</button>
+                <div >
+                    <button ng-click="reset()" >RESET</button>
+                    <button ng-click="save()" >SAVE</button>
                 </div>
             </form>
 
