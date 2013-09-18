@@ -1,0 +1,26 @@
+<strong class="msg msg-{{answerClass}}"> {{answer}} </strong><br/>
+
+<form id="formNewSendTask" novalidate >
+    <div >
+        <label for="sendTo" >Send To</label>
+        <input id="sendTo" type="text" ng-model="sendTask.sendTo" placeholder="Send To">
+    </div>
+    <div >
+        <label for="sendTo" >Reply To</label>
+        <input id="sendTo" type="text" ng-model="sendTask.replyTo" placeholder="Reply To">
+    </div>
+    <div >
+        <label for="sendTo" >Subject</label>
+        <input id="sendTo" type="text" ng-model="sendTask.subject" placeholder="Subject">
+    </div>
+    <div >
+        <label for="content" >Content</label>
+        <!--<input id="content" type="text" ng-model="sendTask.content" placeholder="Content">-->
+        <textarea id="content" ng-model="sendTask.content" placeholder="Content" rows="10" cols="50" ></textarea>
+    </div>
+    <div >
+        <a href="#/" >Cancel</a>
+        <button ng-click="reset()">Reset</button>
+        <button ng-click="save()" >Save</button>
+    </div>
+</form>

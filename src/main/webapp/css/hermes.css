@@ -1,0 +1,12 @@
+.msg{
+    border: 1px;
+    border-color: black;
+}
+
+.msg-success {
+    background-color: greenyellow;
+}
+
+.msg-danger {
+    background-color: red;
+}

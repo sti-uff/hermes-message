@@ -1,0 +1,27 @@
+<h2>{{title}}</h2>
+<input type="text" ng-model="search" class="search-query" placeholder="Search in Sendtasks">
+
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th>Send To</th>
+            <th>Reply To</th>
+            <th>Subject</th>
+            <th>Content</th>
+            <th>Status</th>
+            <th><a href="#/new">New</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="sendtask in sendtasks | filter:search | orderBy:'sendTo'">
+            <td>{{sendtask.sendTo}}</td>
+            <td>{{sendtask.replyTo}}</td>
+            <td>{{sendtask.subject}}</td>
+            <td>{{sendtask.content}}</td>
+            <td>{{sendtask.status}}</td>
+            <td>
+                <a href="#/edit/{{sendtask.id}}">Edit</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
