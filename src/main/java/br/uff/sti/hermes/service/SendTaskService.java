@@ -51,10 +51,16 @@ public class SendTaskService {
         sendTaskDao.update(task);
     }
 
+    public void delete(int id) {
+        sendTaskDao.delete(id);
+    }
+
     /**
      * @param sendTaskDao the sendTaskDao to set
      */
     public void setSendTaskDao(SendTaskDao sendTaskDao) {
         this.sendTaskDao = sendTaskDao;
     }
+
+
 }

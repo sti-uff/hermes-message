@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component(value = "SendTaskDao")
 public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
 
+    static final String SQL_DELETE_BY_ID = "delete from sendtask where id = ?";
     static final String SQL_SELECT_BY_ID = "select * from sendtask where id = ?";
     static final String SQL_GET_ALL = "select * from sendtask";
     static final String SQL_GET_BY_STATUS = "select * from sendtask where status = ?";
@@ -39,7 +40,7 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
     @Override
     @Transactional
     public int insert(SendTask task) {
-        
+
         getJdbcTemplate().update(SQL_INSERT,
                 new Object[]{
             task.getSendTo(),
@@ -48,7 +49,7 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
             task.getContent(),
             task.getStatus().toString()
         });
-        
+
         Integer nextSeqVal = getJdbcTemplate().queryForInt("select max(id) from sendtask");
 
         return nextSeqVal;
@@ -86,5 +87,10 @@ public class SendTaskDaoJdbc extends JdbcDaoSupport implements SendTaskDao {
         };
 
         getJdbcTemplate().update(SQL_UPDATE, params);
+    }
+
+    @Override
+    public void delete(int id) {
+        getJdbcTemplate().update(SQL_DELETE_BY_ID, id);
     }
 }

@@ -22,4 +22,6 @@ public interface SendTaskDao {
     public List<SendTask> getByStatus(SendTask.Status status);
 
     public void update(SendTask task);
+
+    public void delete(int id);
 }

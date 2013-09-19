@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -75,6 +77,18 @@ public class SendTaskApi {
         sendTaskService.save(task);
         Logger.getLogger(SendTaskApi.class).info("Created: " + task.getId());
         return task.getId();
+    }
+
+    @ApiOperation(value = "Deletes a SendTask with a SendTask id", notes = "More notes about this method", response = Response.class)
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam(value = "id") int id) {
+        Logger.getLogger(SendTaskApi.class).info("Delete task: " + id);
+
+        sendTaskService.delete(id);
+        
+        Logger.getLogger(SendTaskApi.class).info("Deleted: " + id);
+        return Response.status(Response.Status.OK).build();
     }
 
     SendTaskService getSendTaskService() {
