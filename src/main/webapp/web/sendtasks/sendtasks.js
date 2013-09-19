@@ -1,5 +1,6 @@
 angular.module('sendtasks', []).
         config(function($routeProvider) {
+    
     $routeProvider.
             when('/', {controller: ListCtrl, templateUrl: 'list.html'}).
             when('/edit/:taskId', {controller: EditCtrl, templateUrl: 'detail.html'}).
@@ -72,5 +73,19 @@ function EditCtrl($scope, $location, $routeParams, $http) {
 
     $scope.reset = function() {
         $scope.sendTask = null;
+    };
+
+    $scope.destroy = function() {
+        $scope.answer2 = '$http.delete: ' + $scope.urlBaseApi + '/sendtasks/' + $scope.sendTask.id;
+        $http.delete($scope.urlBaseApi + '/sendtasks/' + $scope.sendTask.id)
+                .success(function() {
+            $scope.answerClass = 'success';
+            $scope.answer = 'Task deleted.';
+
+            window.location.replace("index.html");
+        }).error(function(status) {
+            $scope.answerClass = 'danger';
+            $scope.answer = 'Error! HTML status code = ' + status;
+        });
     };
 }
