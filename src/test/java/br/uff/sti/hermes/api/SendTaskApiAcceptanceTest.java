@@ -9,6 +9,7 @@ import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
+import com.jayway.restassured.RestAssured;
 import org.junit.Test;
 import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
@@ -16,12 +17,14 @@ import javax.ws.rs.core.Response;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.BeforeTransaction;
 
 /**
  *
@@ -44,6 +47,11 @@ public class SendTaskApiAcceptanceTest {
     private SendTaskDao sendTaskDao;
     private final SendTask taskOne = new SendTask(null, "mail@send.to", "replyTo", "subect", "content", SendTask.Status.TODO);
     private final SendTask taskTwo = new SendTask(null, "another.mail@send.to", "another.replyTo", "another.subect", "another.content", SendTask.Status.TODO);
+
+    @BeforeClass
+    public static void setup() {
+        RestAssured.port = 9090;
+    }
 
     @Before
     public void setupTest() {

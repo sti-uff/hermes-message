@@ -260,11 +260,11 @@
                 <version>6.1.26</version>
                 <configuration>
                     <!--Delete this block to have Jetty run default port (8080)-->
-<!--                    <connectors>
+                    <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>9090</port>
                         </connector>
-                    </connectors>-->
+                    </connectors>
                     <contextPath>/</contextPath>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopKey>foo</stopKey>
