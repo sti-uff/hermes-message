@@ -1,6 +1,6 @@
 angular.module('sendtasks', []).
         config(function($routeProvider) {
-    
+
     $routeProvider.
             when('/', {controller: ListCtrl, templateUrl: 'list.html'}).
             when('/edit/:taskId', {controller: EditCtrl, templateUrl: 'detail.html'}).
@@ -15,7 +15,39 @@ function ListCtrl($scope, $http) {
     $http.get($scope.urlBaseApi + '/sendtasks/').
             success(function(data) {
         $scope.sendtasks = data;
+
+//Remember this is a call back, so all code must be inside the callback success
+//        updateCounts();
+        $scope.total = $scope.sendtasks.length;
+        $scope.todo = 0;
+        $scope.doing = 0;
+        $scope.done = 0;
+        for (var i = 0; i < $scope.total; i++)
+        {
+            if ($scope.sendtasks[i].status == 'TODO')
+                $scope.todo++;
+            if ($scope.sendtasks[i].status == 'DOING')
+                $scope.doing++;
+            if ($scope.sendtasks[i].status == 'DONE')
+                $scope.done++;
+        }
     });
+}
+
+function updateCounts() {
+    $scope.total = $scope.sendtasks.length;
+    $scope.todo = 0;
+    $scope.doing = 0;
+    $scope.done = 0;
+    for (var i = 0; i < $scope.total; i++)
+    {
+        if ($scope.sendtasks[i].status == 'TODO')
+            $scope.todo++;
+        if ($scope.sendtasks[i].status == 'DOING')
+            $scope.doing++;
+        if ($scope.sendtasks[i].status == 'DONE')
+            $scope.done++;
+    }
 }
 
 function CreateCtrl($scope, $http) {
