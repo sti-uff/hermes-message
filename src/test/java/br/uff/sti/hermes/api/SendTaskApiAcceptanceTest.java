@@ -5,12 +5,14 @@
 package br.uff.sti.hermes.api;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Test;
 import static com.jayway.restassured.RestAssured.*;
 import java.util.Collection;
+import javax.ws.rs.core.Response;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import org.junit.Before;
@@ -35,6 +37,7 @@ public class SendTaskApiAcceptanceTest {
     private static final String API_GET_SEND_TASK_BASE = "api/sendtasks/";
     private static final String API_GET_SEND_TASK_INFO = API_GET_SEND_TASK_BASE;
     private static final String API_POST_NEW_SEND_TASK = API_GET_SEND_TASK_BASE;
+    private static final String API_DELETE_SEND_TASK = API_GET_SEND_TASK_BASE;
     @Autowired
     private SendTaskApi sendTaskApi;
     @Autowired
@@ -45,9 +48,11 @@ public class SendTaskApiAcceptanceTest {
     @Before
     public void setupTest() {
         //id = 1
-        sendTaskDao.insert(taskOne);
+        int id = sendTaskDao.insert(taskOne);
+        taskOne.setId(id);
         //id = 2
-        sendTaskDao.insert(taskTwo);
+        id = sendTaskDao.insert(taskTwo);
+        taskTwo.setId(id);
     }
 
     @Test
@@ -72,7 +77,7 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallApiToGetSendTaskOneInfoShouldReturnTestSubject() {
+    public void whenCallApiToGetSendTaskOneInfoShouldReturnTestSubject() throws ObjectNotFoundException {
         assumeNotNull(sendTaskDao.getById(1));
         SendTask sendTask = sendTaskApi.show(1);
 
@@ -105,7 +110,7 @@ public class SendTaskApiAcceptanceTest {
     // -------------------- Http Tests
     @Test
     @FlywayTest
-    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() {
+    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnStatusCode200() throws ObjectNotFoundException {
         assumeNotNull(sendTaskDao.getById(1));
 
         expect().statusCode(200).when().get(API_GET_SEND_TASK_INFO + "1");
@@ -113,7 +118,7 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnAllInformation() {
+    public void whenCallHttpApiToGetSendTaskOneInformationShouldReturnAllInformation() throws ObjectNotFoundException {
         assumeNotNull(sendTaskDao.getById(1));
 
         SendTask returnedTask = get(API_GET_SEND_TASK_INFO + "1").as(SendTask.class);
@@ -127,7 +132,7 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallHttpApiToPostSendTaskShouldReturnStatus200AndSendTaskId() {
+    public void whenCallHttpApiToPostSendTaskShouldReturnStatus200AndSendTaskId() throws ObjectNotFoundException {
         final String to = "test.to";
         final String replyTo = "test.replyTo";
         final String subject = "test.subject";
@@ -144,5 +149,25 @@ public class SendTaskApiAcceptanceTest {
         assertNotNull(id);
 
         assertNotNull(sendTaskDao.getById(id));
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    @FlywayTest
+    public void whenCallHttpApiToDeleteSendTaskShouldReturnStatus200AndDeleteSendTask() throws ObjectNotFoundException {
+        int idOfTaskToDelete = taskOne.getId();
+        expect().statusCode(Response.Status.NO_CONTENT.getStatusCode())
+                .when().delete(API_DELETE_SEND_TASK + idOfTaskToDelete);
+
+        sendTaskDao.getById(idOfTaskToDelete);
+        fail("SendTask should be deleted. Thus, shloud be raised exception when looking for it.");
+    }
+
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToDeleteSendTaskShouldReturnStatus412WhenSendTaskNotFound() {
+        int idThatDontExist = -1;
+
+        expect().statusCode(Response.Status.PRECONDITION_FAILED.getStatusCode())
+                .when().delete(API_DELETE_SEND_TASK + idThatDontExist);
     }
 }

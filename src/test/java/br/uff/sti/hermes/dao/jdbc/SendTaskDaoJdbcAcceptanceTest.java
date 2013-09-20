@@ -5,6 +5,7 @@
 package br.uff.sti.hermes.dao.jdbc;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
@@ -39,7 +40,7 @@ public class SendTaskDaoJdbcAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenGetByIdWithOneShouldReturnTestSubject() {
+    public void whenGetByIdWithOneShouldReturnTestSubject() throws ObjectNotFoundException {
         SendTask setupTask = new SendTask(null, "mail@send.to", "mail@reply.to", "test subject", "test mail", SendTask.Status.TODO);
         sendTaskDao.insert(setupTask);
 
@@ -70,7 +71,7 @@ public class SendTaskDaoJdbcAcceptanceTest {
 
     @Test()
     @FlywayTest
-    public void whenSaveSendTaskShouldInsertAllAttributes() {
+    public void whenSaveSendTaskShouldInsertAllAttributes() throws ObjectNotFoundException {
         SendTask taskToSave = new SendTask(null, "to", "replyto", "subject", "content", SendTask.Status.TODO);
         int taskId = sendTaskDao.insert(taskToSave);
 
@@ -85,7 +86,7 @@ public class SendTaskDaoJdbcAcceptanceTest {
 
     @Test()
     @FlywayTest
-    public void whenUpdateSendTaskShouldUpdateAllAttributesOtherThanId() {
+    public void whenUpdateSendTaskShouldUpdateAllAttributesOtherThanId() throws ObjectNotFoundException {
         SendTask taskToSave = new SendTask(null, "to", "replyto", "subject", "content", SendTask.Status.TODO);
         int taskId = sendTaskDao.insert(taskToSave);
         SendTask taskToUpdate = sendTaskDao.getById(taskId);

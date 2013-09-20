@@ -4,6 +4,7 @@
  */
 package br.uff.sti.hermes.api;
 
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import br.uff.sti.hermes.service.SendTaskService;
 import java.util.List;
@@ -35,7 +36,7 @@ public class SendTaskApiUnitTest {
     }
 
     @Test
-    public void getTasksByIdShouldCallServiceMock() {
+    public void getTasksByIdShouldCallServiceMock() throws ObjectNotFoundException {
         SendTask task = new SendTask("to", "replyTo", "subject", "content");
         when(serviceMock.getTaskbyId(1)).thenReturn(task);
 

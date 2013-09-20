@@ -5,9 +5,12 @@
 package br.uff.sti.hermes.service;
 
 import br.uff.sti.hermes.dao.SendTaskDao;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import java.util.Collection;
 import java.util.List;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +33,13 @@ public class SendTaskService {
         return task;
     }
 
-    public SendTask getTaskbyId(int id) {
-        return sendTaskDao.getById(id);
+    public SendTask getTaskbyId(int id) throws ObjectNotFoundException {
+        try {
+            return sendTaskDao.getById(id);
+        } catch (ObjectNotFoundException ex) {
+            Logger.getLogger(SendTaskService.class).error(ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
     public Collection<SendTask> getAll() {
@@ -51,8 +59,13 @@ public class SendTaskService {
         sendTaskDao.update(task);
     }
 
-    public void delete(int id) {
-        sendTaskDao.delete(id);
+    public void delete(int id) throws ObjectNotFoundException {
+        try {
+            sendTaskDao.delete(id);
+        } catch (ObjectNotFoundException ex) {
+            Logger.getLogger(SendTaskService.class).info(ex);
+            throw ex;
+        }
     }
 
     /**

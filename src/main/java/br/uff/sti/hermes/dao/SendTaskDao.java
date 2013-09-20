@@ -6,6 +6,7 @@ package br.uff.sti.hermes.dao;
 
 import br.uff.sti.hermes.model.SendTask;
 import java.util.List;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
 
 /**
  *
@@ -15,7 +16,7 @@ public interface SendTaskDao {
 
     public List<SendTask> getAll();
 
-    public SendTask getById(int id);
+    public SendTask getById(int id) throws ObjectNotFoundException;
 
     public int insert(SendTask task);
 
@@ -23,5 +24,5 @@ public interface SendTaskDao {
 
     public void update(SendTask task);
 
-    public void delete(int id);
+    public void delete(int id) throws ObjectNotFoundException;
 }

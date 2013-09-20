@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import br.uff.sti.hermes.exception.ObjectNotFoundException;
+import java.util.logging.Level;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Response;
 
@@ -48,7 +50,7 @@ public class SendTaskApi {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SendTask show(@PathParam(value = "id") int id) {
+    public SendTask show(@PathParam(value = "id") int id) throws ObjectNotFoundException {
         return sendTaskService.getTaskbyId(id);
     }
 
@@ -84,11 +86,15 @@ public class SendTaskApi {
     @Path("/{id}")
     public Response delete(@PathParam(value = "id") int id) {
         Logger.getLogger(SendTaskApi.class).info("Delete task: " + id);
+        try {
+            sendTaskService.delete(id);
+            Logger.getLogger(SendTaskApi.class).info("Deleted: " + id);
+            return Response.status(Response.Status.NO_CONTENT).build();
 
-        sendTaskService.delete(id);
-        
-        Logger.getLogger(SendTaskApi.class).info("Deleted: " + id);
-        return Response.status(Response.Status.OK).build();
+        } catch (ObjectNotFoundException ex) {
+            Logger.getLogger(SendTaskService.class).error("Error deleting sendtask with id: " + id + ".", ex);
+            return Response.serverError().status(Response.Status.PRECONDITION_FAILED).build();
+        }
     }
 
     SendTaskService getSendTaskService() {
