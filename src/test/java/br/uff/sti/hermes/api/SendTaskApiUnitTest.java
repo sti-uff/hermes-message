@@ -4,17 +4,15 @@
  */
 package br.uff.sti.hermes.api;
 
+import br.uff.sti.hermes.api.base.exception.ApiException;
 import br.uff.sti.hermes.exception.ObjectNotFoundException;
 import br.uff.sti.hermes.model.SendTask;
 import br.uff.sti.hermes.service.SendTaskService;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import static org.mockito.Mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 /**
@@ -36,7 +34,7 @@ public class SendTaskApiUnitTest {
     }
 
     @Test
-    public void getTasksByIdShouldCallServiceMock() throws ObjectNotFoundException {
+    public void getTasksByIdShouldCallServiceMock() throws ApiException, ObjectNotFoundException {
         SendTask task = new SendTask("to", "replyTo", "subject", "content");
         when(serviceMock.getTaskbyId(1)).thenReturn(task);
 

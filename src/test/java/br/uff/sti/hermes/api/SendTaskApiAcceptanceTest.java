@@ -41,6 +41,7 @@ public class SendTaskApiAcceptanceTest {
     private static final String API_GET_SEND_TASK_INFO = API_GET_SEND_TASK_BASE;
     private static final String API_POST_NEW_SEND_TASK = API_GET_SEND_TASK_BASE;
     private static final String API_DELETE_SEND_TASK = API_GET_SEND_TASK_BASE;
+    private static final String API_UPDATE_SEND_TASK = API_GET_SEND_TASK_BASE;
     @Autowired
     private SendTaskApi sendTaskApi;
     @Autowired
@@ -85,7 +86,7 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallApiToGetSendTaskOneInfoShouldReturnTestSubject() throws ObjectNotFoundException {
+    public void whenCallApiToGetSendTaskOneInfoShouldReturnTestSubject() throws Exception {
         assumeNotNull(sendTaskDao.getById(1));
         SendTask sendTask = sendTaskApi.show(1);
 
@@ -140,23 +141,43 @@ public class SendTaskApiAcceptanceTest {
 
     @Test
     @FlywayTest
-    public void whenCallHttpApiToPostSendTaskShouldReturnStatus200AndSendTaskId() throws ObjectNotFoundException {
-        final String to = "test.to";
-        final String replyTo = "test.replyTo";
-        final String subject = "test.subject";
-        final String content = "test.content";
+    public void whenCallHttpApiToCreateSendTaskShouldReturnStatus200AndSendTaskId() throws ObjectNotFoundException {
+        sendTaskDao.delete(taskOne.getId());
+        taskOne.setId(null);
 
         Integer id = expect().statusCode(200)
                 .given()
-                .param("to", to)
-                .param("replyTo", replyTo)
-                .param("subject", subject)
-                .param("content", content)
+                .contentType("application/json")
+                .body(taskOne)
                 .when().post(API_POST_NEW_SEND_TASK).as(Integer.class);
 
         assertNotNull(id);
 
         assertNotNull(sendTaskDao.getById(id));
+    }
+
+    @Test
+    @FlywayTest
+    public void whenCallHttpApiToUpdateSendTaskShouldReturnStatus200AndSendTaskId() throws ObjectNotFoundException {
+        taskOne.setSubject("new subject");
+        taskOne.setContent("new content");
+        taskOne.setSendTo("new to");
+        taskOne.setReplyTo("new replyto");
+        taskOne.setStatus(SendTask.Status.DONE);
+        
+        expect().statusCode(Response.Status.NO_CONTENT.getStatusCode())
+                .given()
+                .contentType("application/json")
+                .body(taskOne)
+                .when().put(API_UPDATE_SEND_TASK + taskOne.getId());
+
+        SendTask taskFromDatabase = sendTaskDao.getById(taskOne.getId());
+        
+        assertEquals(taskOne.getSubject(), taskFromDatabase.getSubject());
+        assertEquals(taskOne.getContent(), taskFromDatabase.getContent());
+        assertEquals(taskOne.getReplyTo(), taskFromDatabase.getReplyTo());
+        assertEquals(taskOne.getSendTo(), taskFromDatabase.getSendTo());
+        assertEquals(taskOne.getStatus(), taskFromDatabase.getStatus());
     }
 
     @Test(expected = ObjectNotFoundException.class)
