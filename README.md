@@ -40,3 +40,7 @@ Replace the $TOMCAT_HOME with your tomcat 6 folder when needed.
 5. Run Tomcat
 <pre> ./ $TOMCAT_HOME/bin/startup.sh </pre>
 
+Want more info? 
+--
+
+Check the [wiki](https://github.com/sti-uff/hermes-message/wiki)
